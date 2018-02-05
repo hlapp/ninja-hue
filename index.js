@@ -9,6 +9,8 @@ var util = require('util')
 util.inherits(hue,stream);
 module.exports = hue;
 
+const enabled = false;
+
 function hue(opts,app) {
   var self = this;
 
@@ -22,7 +24,11 @@ function hue(opts,app) {
     if (self._opts.stations.length>0) {
       self.loadStations.call(self);
     } else {
-      self.findStations.call(self);
+      if (enabled) {
+        self.findStations.call(self);
+      } else {
+        app.log.info("Philips Hue module is not enabled");
+      }
     }
 
   });
